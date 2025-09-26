@@ -20,6 +20,8 @@
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<link rel="shortcut icon" href="images/Logo_No_Text.svg" type="image/x-icon">
 	</head>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
 	<body class="landing is-preload">
 		<div id="page-wrapper">
 
@@ -31,7 +33,7 @@
 						<ul>
 							<li><a href="index.html">Home</a></li>
 							
-							<li><a href="contact.html" class="button">Book a Consult</a></li>
+							<li><a id="openFormBtn" class="button">Book a Consult</a></li>
 						</ul>
 					</nav>
 				</header>
@@ -59,32 +61,33 @@
 						<span class="image featured"><img src="images/pic01.jpg" alt="" /></span>
 					</section>
 
-					<section class="box special features">
-					<div class="features-row">
-					  <section>
-					    <span class="icon solid major fa-cogs accent2"></span>
-					    <h3>Managed IT Support</h3>
-					    <p>Helpdesk, patching, backups, Microsoft 365.</p>
-					  </section>
-					  <section>
-					    <span class="icon solid major fa-project-diagram accent3"></span>
-					    <h3>Workflow Automation</h3>
-					    <p>Save hours with smarter processes and integrations.</p>
-					  </section>
-					</div>
-					<div class="features-row">
-					  <section>
-					    <span class="icon solid major fa-briefcase accent4"></span>
-					    <h3>Full IT Management</h3>
-					    <p>vCIO planning, security, compliance, and long-term strategy.</p>
-					  </section>
-					  <section>
-					    <span class="icon solid major fa-shield-alt accent5"></span>
-					    <h3>Cybersecurity & Protection</h3>
-					    <p>Defend against ransomware, data loss, and downtime.</p>
-					  </section>
-					</div>
-					</section>
+					<section class="box special features" id="services">
+  <div class="features-row">
+    <section>
+      <span class="icon solid major fa-cogs accent2"></span>
+      <h3>Managed IT Support</h3>
+      <p>Fix issues fast, patch devices, and keep Microsoft 365 running smoothly.</p>
+    </section>
+    <section>
+      <span class="icon solid major fa-lock accent5"></span>
+      <h3>Cybersecurity & Backups</h3>'[]'
+      <p>Protect against ransomware, enforce best practices, and recover quickly if needed.</p>
+    </section>
+  </div>
+  <div class="features-row">
+    <section>
+      <span class="icon solid major fa-briefcase accent4"></span>
+      <h3>Full IT Management</h3>
+      <p>Plan budgets, vendors, and compliance with a dedicated vCIO partner.</p>
+    </section>
+    <section>
+      <span class="icon solid major fa-sitemap accent3"></span>
+      <h3>Workflow Automation</h3>
+      <p>Automate repetitive tasks and connect your tools to save hours weekly.</p>
+    </section>
+  </div>
+</section>
+
 
 					<div >
 					<div class="col-6 col-12-narrower">
@@ -100,7 +103,7 @@
         <th>Feature</th>
         <th>Essentials<br>$500–$750/mo</th>
         <th>Full IT Mgmt<br>$1,500–$3,000/mo</th>
-        <th>Automation<br>from $1,500/project</th>
+        <th>Automation<br>from $500–$1,500/project</th>
       </tr>
     </thead>
     <tbody>
@@ -169,6 +172,116 @@
 				</footer>
 
 		</div>
+
+<!-- Modal -->
+<div id="contactModal" class="modal" aria-hidden="true">
+  <div class="modal-content" role="dialog" aria-labelledby="contactTitle" aria-modal="true">
+    <button class="close" aria-label="Close">×</button>
+
+    <h3 id="contactTitle">Contact Form</h3>
+    <form id="contactForm" action="https://formspree.io/f/xeoreoer" method="POST">
+      <div class="row gtr-uniform gtr-50">
+        <div class="col-6 col-12-mobilep">
+          <input type="text" name="name" placeholder="Name" required />
+        </div>
+        <div class="col-6 col-12-mobilep">
+          <input type="email" name="email" placeholder="Email" required />
+        </div>
+
+        <div class="col-12">
+          <select name="category" id="category">
+            <option value="">- Category -</option>
+            <option value="Book Consult">Book Consult</option>
+            <option value="Pricing">Pricing</option>
+            <option value="Support">Support</option>
+          </select>
+        </div>
+
+        <div class="col-12">
+          <textarea name="message" placeholder="Enter your message" rows="6" required></textarea>
+        </div>
+
+        <!-- Cloudflare Turnstile -->
+        <div id="turnstile-container" class="cf-turnstile"
+             data-sitekey="0x4AAAAAAB3mFFj-dA0usMmb"
+             data-callback="onTurnstileSuccess">
+        </div>
+
+        <div class="col-12">
+          <ul class="actions">
+            <li><input id="submitBtn" type="submit" value="Send Message" disabled /></li>
+            <li><input type="reset" value="Reset" class="alt" /></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Optional: nicer subject line in your inbox -->
+      <input type="hidden" name="_subject" value="New message from CVIT website" />
+      <!-- Optional: honeypot (basic extra spam trap) -->
+      <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" />
+    </form>
+
+    <!-- Success / error message (for AJAX mode, if you enable it later) -->
+    <p id="formMsg" style="display:none;"></p>
+  </div>
+</div>
+
+
+<!-- Minimal styles; keep or blend with your theme -->
+<style>
+  .modal{display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.6);overflow:auto}
+  .modal-content{background:#fff;margin:8% auto;padding:2rem;max-width:650px;border-radius:12px;position:relative}
+  .close{position:absolute;top:.5rem;right:.75rem;font-size:24px;cursor:pointer;background:transparent;border:0}
+</style>
+
+<script>
+  // Elements
+  const modal = document.getElementById('contactModal');
+  const openBtn = document.getElementById('openFormBtn');
+  const closeBtn = document.querySelector('#contactModal .close');
+  const submitBtn = document.getElementById('submitBtn');
+  const form = document.getElementById('contactForm');
+
+  let turnstileWidgetId = null;
+
+  // Turnstile callback — enables submit when user passes
+  window.onTurnstileSuccess = function(token) {
+    submitBtn.disabled = false;
+  };
+
+  function openContactModal() {
+    modal.style.display = 'block';
+    modal.setAttribute('aria-hidden', 'false');
+
+    // Render Turnstile when modal becomes visible (important for hidden elements)
+    if (!turnstileWidgetId) {
+      turnstileWidgetId = turnstile.render('#turnstile-container', {
+        sitekey: '0x4AAAAAAB3mFFj-dA0usMmb',
+        callback: onTurnstileSuccess
+      });
+    } else {
+      // If previously rendered, reset for a fresh token
+      turnstile.reset(turnstileWidgetId);
+    }
+    submitBtn.disabled = true; // keep disabled until solved
+  }
+
+  function closeContactModal() {
+    modal.style.display = 'none';
+    modal.setAttribute('aria-hidden', 'true');
+  }
+
+  // Open/close wiring
+  openBtn.addEventListener('click', openContactModal);
+  closeBtn.addEventListener('click', closeContactModal);
+  window.addEventListener('click', (e) => { if (e.target === modal) closeContactModal(); });
+
+  // Optional: on reset, also reset Turnstile + disable button
+  form.addEventListener('reset', () => {
+    if (turnstileWidgetId) turnstile.reset(turnstileWidgetId);
+    submitBtn.disabled = true;
+  });
+</script>
 
 		<!-- Scripts -->
 			<script src="assets/js/jquery.min.js"></script>
