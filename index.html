@@ -20,7 +20,9 @@
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<link rel="shortcut icon" href="images/Logo_No_Text.svg" type="image/x-icon">
 	</head>
-  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
+
+<!-- Modal -->
 
 	<body class="landing is-preload">
 		<div id="page-wrapper">
@@ -201,11 +203,8 @@
           <textarea name="message" placeholder="Enter your message" rows="6" required></textarea>
         </div>
 
-        <!-- Cloudflare Turnstile -->
-        <div id="turnstile-container" class="cf-turnstile"
-             data-sitekey="0x4AAAAAAB3mFFj-dA0usMmb"
-             data-callback="onTurnstileSuccess">
-        </div>
+        <!-- Cloudflare Turnstile (explicit render target) -->
+        <div id="turnstile-container"></div>
 
         <div class="col-12">
           <ul class="actions">
@@ -215,19 +214,17 @@
         </div>
       </div>
 
-      <!-- Optional: nicer subject line in your inbox -->
+      <!-- Optional: nicer subject line -->
       <input type="hidden" name="_subject" value="New message from CVIT website" />
-      <!-- Optional: honeypot (basic extra spam trap) -->
+      <!-- Optional: honeypot -->
       <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" />
     </form>
 
-    <!-- Success / error message (for AJAX mode, if you enable it later) -->
+    <!-- Success / error message -->
     <p id="formMsg" style="display:none;"></p>
   </div>
 </div>
 
-
-<!-- Minimal styles; keep or blend with your theme -->
 <style>
   .modal{display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.6);overflow:auto}
   .modal-content{background:#fff;margin:8% auto;padding:2rem;max-width:650px;border-radius:12px;position:relative}
@@ -253,14 +250,14 @@
     modal.style.display = 'block';
     modal.setAttribute('aria-hidden', 'false');
 
-    // Render Turnstile when modal becomes visible (important for hidden elements)
+    // Render Turnstile when modal becomes visible
     if (!turnstileWidgetId) {
       turnstileWidgetId = turnstile.render('#turnstile-container', {
         sitekey: '0x4AAAAAAB3mFFj-dA0usMmb',
         callback: onTurnstileSuccess
       });
     } else {
-      // If previously rendered, reset for a fresh token
+      // Reset for a fresh token
       turnstile.reset(turnstileWidgetId);
     }
     submitBtn.disabled = true; // keep disabled until solved
@@ -276,7 +273,7 @@
   closeBtn.addEventListener('click', closeContactModal);
   window.addEventListener('click', (e) => { if (e.target === modal) closeContactModal(); });
 
-  // Optional: on reset, also reset Turnstile + disable button
+  // Reset button also resets Turnstile
   form.addEventListener('reset', () => {
     if (turnstileWidgetId) turnstile.reset(turnstileWidgetId);
     submitBtn.disabled = true;
