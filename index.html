@@ -35,7 +35,7 @@
 						<ul>
 							<li><a href="index.html">Home</a></li>
 							
-							<li><a id="openFormBtn" class="button">Book a Consult</a></li>
+							<li><a  class="button js-open-contact">Book a Consult</a></li>
 						</ul>
 					</nav>
 				</header>
@@ -45,7 +45,7 @@
 					<h2>Reliable IT & automation for Bakersfield small businesses.</h2>
 					<p>Flat-rate support, on-call automation projects, and full IT management.</p>
 					<ul class="actions special">
-						<li><a href="#" class="button primary">Book a Free Consult</a></li>
+						<li><a id="openFormBtn" class="button primary js-open-contact">Book a Free Consult</a></li>
 						<li><a href="#pricing" class="button">See Pricing</a></li>
 					</ul>
 				</section>
@@ -91,11 +91,11 @@
 </section>
 
 
-					<div >
+					<div id="pricing">
 					<div class="col-6 col-12-narrower">
 					  <section class="box special">
 						<section class="box">
-<h2 id="pricing">Simple, transparent pricing</h2>
+<h2 >Simple, transparent pricing</h2>
 <p>Choose a plan now—upgrade anytime.</p>
 
 <div class="table-wrapper">
@@ -140,8 +140,7 @@
 
 									
 								</section>
-					    
-	<a href="#contact" class="button alt">Get Support</a>
+	<a id="openFormBtn" class="button alt js-open-contact">Get Support</a>
 					    </ul>
 					  </section>
 					</div>
@@ -268,10 +267,21 @@
     modal.setAttribute('aria-hidden', 'true');
   }
 
-  // Open/close wiring
-  openBtn.addEventListener('click', openContactModal);
-  closeBtn.addEventListener('click', closeContactModal);
-  window.addEventListener('click', (e) => { if (e.target === modal) closeContactModal(); });
+// Open/close wiring
+const openBtns = document.querySelectorAll('.js-open-contact');
+openBtns.forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    // prevent <a href="#"> from jumping to top
+    if (btn.tagName === 'A') e.preventDefault();
+    openContactModal();
+  });
+});
+
+closeBtn.addEventListener('click', closeContactModal);
+window.addEventListener('click', (e) => { if (e.target === modal) closeContactModal(); });
+
+// Optional: close with Esc
+window.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeContactModal(); });
 
   // Reset button also resets Turnstile
   form.addEventListener('reset', () => {
