@@ -3896,3 +3896,85 @@
 			}
 
 	}
+
+	/* PRICING — compact, readable */
+.table-wrapper table.cvit-pricing {
+  font-size: 0.95rem;              /* smaller text */
+  line-height: 1.25;               /* tighter rows */
+  table-layout: fixed;             /* consistent column widths */
+  width: 100%;
+  max-width: 980px;                /* don’t stretch too wide */
+  margin: 0 auto 1.5rem;
+}
+.table-wrapper table.cvit-pricing th,
+.table-wrapper table.cvit-pricing td {
+  padding: 0.5rem 0.75rem;         /* less padding */
+  vertical-align: middle;
+}
+.table-wrapper table.cvit-pricing thead th {
+  text-align: left;
+  border-bottom: 1px solid rgba(255,255,255,0.15);
+}
+.table-wrapper table.cvit-pricing td:first-child,
+.table-wrapper table.cvit-pricing th:first-child {
+  width: 46%;                      /* wider feature column */
+}
+.table-wrapper table.cvit-pricing td:nth-child(2),
+.table-wrapper table.cvit-pricing th:nth-child(2),
+.table-wrapper table.cvit-pricing td:nth-child(3),
+.table-wrapper table.cvit-pricing th:nth-child(3) {
+  width: 27%;
+  text-align: center;
+}
+
+/* cleaner plan headers */
+.cvit-pricing .plan { display:block; font-weight:700; font-size:0.95rem; }
+.cvit-pricing .price { display:block; font-weight:700; font-size:1.05rem; }
+.cvit-pricing .min { display:block; opacity:0.8; font-size:0.85rem; }
+
+/* Automation card (compact) */
+.cvit-automation-card {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0.85rem 1rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.03);
+}
+.cvit-automation-card h4 { margin: 0 0 0.25rem; }
+.cvit-automation-card .blurb { margin: 0 0 0.25rem; opacity: 0.85; }
+.cvit-automation-card ul { margin: 0.25rem 0 0; }
+
+/* Mobile: stack rows as cards for readability */
+@media (max-width: 760px) {
+  .table-wrapper table.cvit-pricing,
+  .table-wrapper table.cvit-pricing thead,
+  .table-wrapper table.cvit-pricing tbody,
+  .table-wrapper table.cvit-pricing th,
+  .table-wrapper table.cvit-pricing td,
+  .table-wrapper table.cvit-pricing tr { display: block; }
+
+  .table-wrapper table.cvit-pricing thead { display: none; }
+
+  .table-wrapper table.cvit-pricing tr {
+    margin: 0 0 0.6rem;
+    padding: 0.6rem 0.7rem;
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 0.6rem;
+    background: rgba(255,255,255,0.02);
+  }
+
+  .table-wrapper table.cvit-pricing td {
+    padding: 0.25rem 0;
+    border: none !important;
+  }
+
+  .table-wrapper table.cvit-pricing td:first-child {
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+    width: auto;
+  }
+
+  .table-wrapper table.cvit-pricing td:nth-child(2)::before { content: "Essentials: "; font-weight:600; }
+  .table-wrapper table.cvit-pricing td:nth-child(3)::before { content: "Full: "; font-weight:600; }
+}
